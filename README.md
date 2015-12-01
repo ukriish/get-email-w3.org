@@ -7,8 +7,9 @@ If you have the pickled list of urls then run the program using the following co
 ```bash
 python scrapEmail.py <filename>
 ```
+Here just run `$ python scrapEmail.py MonthLinks.pkl`
 
-else if running for the first time then make use of 
+else if you would like to generate the pickle file yourself run
 ```bash
 python scrapEmail.py
 ```
