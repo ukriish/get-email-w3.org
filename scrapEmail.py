@@ -126,7 +126,7 @@ def getAllUrls(soup, mainUrl):
 	return fullUrls
 
 def writeUrlListToFile():
-	''' '''
+	''' Get all the links a pickle it to be used later'''
 	pickleFile = 'MonthLinks.pkl'
 	textFile = 'MonthLinks.txt'
 	fileP = open(pickleFile, 'wb')
@@ -146,7 +146,7 @@ def writeUrlListToFile():
 	return pickleFile
 
 def processLinksFrom(pickleFile):
-	''' '''
+	''' Get data from pickle and get mails'''
 	fileP = open(pickleFile, 'rb')
 	mailUrls = []
 	while 1:
@@ -155,7 +155,7 @@ def processLinksFrom(pickleFile):
 	    except:
 	        break
 	fileP.close()
-
+	#Create a multiple threads and get details
 	pool = ThreadPool(5)
 	results = pool.map(getMailDetailsToFile, mailUrls)
 	pool.close()
@@ -168,11 +168,7 @@ def main(fileName):
 		if os.path.exists(fileName[0]):
 			processLinksFrom(fileName[0])
 	else:
-		print "Please try again"
-
-
-
-
+		print "Please try again : $ python scrapEmail.py or $ python scrapEmail.py <filename>"
 
 if __name__ == '__main__':
     main(sys.argv[1:])
