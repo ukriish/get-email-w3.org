@@ -1,5 +1,5 @@
 # get-email-w3.org
-A python script to get all the emails into a file using beautifulsoup
+A python script to get all the emails from w3.org email list into a file using beautifulsoup
 
 To run this code first make sure you have beautifulsoup module installed, if not the run this on your linux machine `$ apt-get install python-bs4`. For further reference please visit [Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
