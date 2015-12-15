@@ -69,11 +69,18 @@ def getInReplyTo(soup):
 def getMailDetailsToFile(urls):
 	''' Load the page and extract all the required details'''
 	fileName = urls[0].split('/')[6].strip()
-	if not os.path.exists(fileName + '.csv'):
+	if not os.path.exists(fileName):
+		os.makedirs(fileName)
+	if not os.path.exists('./' + fileName + '/' + fileName + '.tsv'):
 		print 'Writing to file : ' + fileName
-		fileMonth = codecs.open( fileName + '.csv', 'w', 'utf-8')
-		fileMonth.write('Message-Id\tDate\tFrom\tTo\tSubject\tBody\tIn Reply To\n')
-		for url in urls:	
+		fileMonth = codecs.open('./' + fileName + '/' + fileName + '.tsv', 'w', 'utf-8')
+		fileMonth.write('"SrNo"\t"Message-Id"\t"Date"\t"From"\t"To"\t"Subject"\t"In Reply To"\r\n')
+		for url in urls:
+			srNo = url.split('/')[7].strip().strip('.html')
+
+			emailFile = codecs.open('./' + fileName + '/' + srNo + '.tsv', 'w', 'utf-8')
+			emailFile.write('"Message-Id"*|*"Body"\r\n')
+
 			html = urllib2.urlopen(url).read()
 			soup = BeautifulSoup(html, 'html.parser')
 			#Get Message subject
@@ -86,7 +93,9 @@ def getMailDetailsToFile(urls):
 				msgBody = getMsgBody(tags)
 			print 'Writing contents of ' + url + ' to file' #notification to terminal
 			#write to file
-			fileMonth.write(msgHeader['Message-Id'] + '\t' + msgHeader['Date'] + '\t' + msgHeader['From'] + '\t' + msgHeader['To'] + '\t' + msgSub + '\t' + msgBody + '\t' + inReplyTo + '\n')
+			fileMonth.write('"' + srNo + '"\t"' + msgHeader['Message-Id'] + '"\t"' + msgHeader['Date'] + '"\t"' + msgHeader['From'] + '"\t"' + msgHeader['To'] + '"\t"' + msgSub + '"\t"' + inReplyTo + '"\r\n')
+			emailFile.write('"' + msgHeader['Message-Id'] + '"*|*"' + msgBody +'"\r\n')
+			emailFile.close()
 		fileMonth.close()
 	else:
 		print 'File already exits'
