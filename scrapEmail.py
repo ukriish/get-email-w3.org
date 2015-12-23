@@ -77,10 +77,7 @@ def getMailDetailsToFile(urls):
 		fileMonth.write('"SrNo"\t"Message-Id"\t"Date"\t"From"\t"To"\t"Subject"\t"In Reply To"\r\n')
 		for url in urls:
 			srNo = url.split('/')[7].strip().strip('.html')
-
-			emailFile = codecs.open('./' + fileName + '/' + srNo + '.tsv', 'w', 'utf-8')
-			emailFile.write('"Message-Id"*|*"Body"\r\n')
-
+			emailFile = codecs.open('./' + fileName + '/' + srNo + '.txt', 'w', 'utf-8')
 			html = urllib2.urlopen(url).read()
 			soup = BeautifulSoup(html, 'html.parser')
 			#Get Message subject
@@ -94,7 +91,7 @@ def getMailDetailsToFile(urls):
 			print 'Writing contents of ' + url + ' to file' #notification to terminal
 			#write to file
 			fileMonth.write('"' + srNo + '"\t"' + msgHeader['Message-Id'] + '"\t"' + msgHeader['Date'] + '"\t"' + msgHeader['From'] + '"\t"' + msgHeader['To'] + '"\t"' + msgSub + '"\t"' + inReplyTo + '"\r\n')
-			emailFile.write('"' + msgHeader['Message-Id'] + '"*|*"' + msgBody +'"\r\n')
+			emailFile.write(msgHeader['Message-Id'] + '\r\n' + msgBody +'\r\n')
 			emailFile.close()
 		fileMonth.close()
 	else:
