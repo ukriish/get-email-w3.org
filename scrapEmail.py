@@ -51,7 +51,7 @@ def getMsgBody(soup):
 	msgBody = ''
 	for tags in soup.findAll('pre'):
 		msgBody += tags.text
-	return msgBody.strip()
+	return msgBody.strip().replace('"',"'")
 
 def getMsgSubject(soup):
 	''' Extract the subject line'''
